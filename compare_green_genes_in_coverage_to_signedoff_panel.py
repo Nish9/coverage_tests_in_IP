@@ -8,7 +8,7 @@ import yaml
 # cipapi_credentials = {entry['name']: entry for entry in cred_dict}
 # username = cipapi_credentials[cip_api_gms_test]['username']
 # password = cipapi_credentials[cip_api_gms_test]['password']
-c = CipApiClient(url_base='https://cipapi-gms-test.gel.zone/', user='nthota', password='Ilovespike10')
+c = CipApiClient(url_base='https://cipapi-gms-test.gel.zone/', user=username, password=password)
 
 caselist = ['450-1']
 
