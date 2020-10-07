@@ -4,10 +4,10 @@ import os
 from pycipapi.cipapi_client import CipApiClient
 import yaml
 
-# cred_dict = yaml.load(open(os.getenv('GEL_CREDENTIALS')), Loader=yaml.FullLoader)
-# cipapi_credentials = {entry['name']: entry for entry in cred_dict}
-# username = cipapi_credentials[cip_api_gms_test]['username']
-# password = cipapi_credentials[cip_api_gms_test]['password']
+cred_dict = yaml.load(open(os.getenv('GEL_CREDENTIALS')), Loader=yaml.FullLoader)
+cipapi_credentials = {entry['name']: entry for entry in cred_dict}
+username = cipapi_credentials[cip_api_gms_test]['username']
+password = cipapi_credentials[cip_api_gms_test]['password']
 c = CipApiClient(url_base='https://cipapi-gms-test.gel.zone/', user=username, password=password)
 
 caselist = ['450-1']
