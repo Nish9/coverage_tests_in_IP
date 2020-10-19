@@ -6,8 +6,8 @@ import yaml
 
 cred_dict = yaml.load(open(os.getenv('GEL_CREDENTIALS')), Loader=yaml.FullLoader)
 cipapi_credentials = {entry['name']: entry for entry in cred_dict}
-username = cipapi_credentials[cip_api_gms_test]['username']
-password = cipapi_credentials[cip_api_gms_test]['password']
+username = cipapi_credentials['cipapi-test']['username']
+password = cipapi_credentials['cipapi-test']['password']
 c = CipApiClient(url_base='https://cipapi-gms-test.gel.zone/', user=username, password=password)
 
 caselist = ['450-1']
@@ -31,11 +31,11 @@ def signedoff_green_genecount(paneldata):
     for panel in paneldata:
         signedoffpanel = requests.get('https://panelapp.genomicsengland.co.uk/api/v1/panels/signedoff/{}/'.format(panel['panelId'])).json()
         # panel_name = signedoffpanel['name']
-        panelapp_green_genecount = 0
+        panelapp_green_gene_list = []
         for gene in signedoffpanel['genes']:
             if gene["confidence_level"] == "3":
-                panelapp_green_genecount += 1
-        panelapp_green_genecounts.append({'panelID':panel['panelId'],'green_gene_count': panelapp_green_genecount})
+                panelapp_green_gene_list.append(gene['gene_data']["gene_symbol"])
+        panelapp_green_genecounts.append({'panelID':panel['panelId'],'green_gene_count': len(set(panelapp_green_gene_list))})
     return panelapp_green_genecounts
 
 for case in caselist:
