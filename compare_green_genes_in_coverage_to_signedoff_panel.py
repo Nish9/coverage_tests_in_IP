@@ -6,11 +6,11 @@ import yaml
 
 cred_dict = yaml.load(open(os.getenv('GEL_CREDENTIALS')), Loader=yaml.FullLoader)
 cipapi_credentials = {entry['name']: entry for entry in cred_dict}
-username = cipapi_credentials['cipapi-test']['username']
+username = cipapi_credentials['cip_api_gms_dev']['username']
 password = cipapi_credentials['cipapi-test']['password']
-c = CipApiClient(url_base='https://cipapi-gms-test.gel.zone/', user=username, password=password)
+c = CipApiClient(url_base='https://cipapi-gms-dev.gel.zone/', user=username, password=password)
 
-caselist = ['450-1']
+caselist = ['457-1']
 
 def getIR(case):
     ir, version = case.split('-')
@@ -22,7 +22,9 @@ def get_coverage_data(interpretation_request):
     panels_genecount = []
     coverage_json = interpretation_request['genePanelsCoverage']
     for panel in coverage_json:
-        panels_genecount.append({'panelId':panel,'genecount':len(coverage_json[panel])})
+        if "SUMMARY" in coverage_json.keys(): #appears that the "Summary" of the coverage stats is included as a key in the coverage json file
+            coverage_json.pop("SUMMARY")
+            panels_genecount.append({'panelId':panel,'genecount':len(coverage_json[panel])})
     return panels_genecount
 
 
